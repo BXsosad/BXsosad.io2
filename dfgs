@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concrete Slump Test</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#eef4f8;
+}
+
+header{
+    background:#0b6fa4;
+    color: white;
+    text-align: center;
+    padding:20px;
+}
+
+.container{
+    width:90%;
+    max-width:1100px;
+    margin:auto;
+}
+
+.card{
+    background: white;
+    padding:20px;
+    margin-top:20px;
+    border-radius:10px;
+    box-shadow:0px 5px 15px rgba(0,0,0,.15);
+}
+
+h2{
+    color:#0b6fa4;
+}
+
+table{
+    width:100%;
+    border-collapse: collapse;
+    margin-top:15px;
+}
+
+table th{
+    background:#0b6fa4;
+    color: white;
+}
+
+table th, table td{
+    border:1px solid #ccc;
+    padding:10px;
+    text-align: center;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    margin-bottom:15px;
+}
+
+button{
+    background:#0b6fa4;
+    color: white;
+    padding:12px 25px;
+    border: none;
+    border-radius:8px;
+    cursor: pointer;
+}
+
+button: hover{
+    background:#09557d;
+}
+
+footer{
+    margin-top:30px;
+    background:#0b6fa4;
+    color: white;
+    text-align: center;
+    padding:15px;
+}
+
+.step{
+    background:#f4f4f4;
+    padding:10px;
+    border-left:5px solid #0b6fa4;
+    margin-top:10px;
+}
+
+</style>
+
+</head>
+<body>
+
+<header>
+
+<h1>การทดสอบ Slump Test ของคอนกรีต</h1>
+
+<p>ศึกษาผลของเถ้าลอยจากโรงไฟฟ้าต่อค่าการยุบตัวของคอนกรีต</p>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>ความหมาย</h2>
+
+<p>
+
+Slump Test เป็นการทดสอบความสามารถในการเทและความเหลวของคอนกรีตสด
+โดยใช้แม่พิมพ์ทรงกรวย (Slump Cone)
+เมื่อยกกรวยขึ้นจะวัดระยะการยุบตัวของคอนกรีต
+หน่วยเป็นมิลลิเมตร (mm)
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>ขั้นตอนการทดสอบ</h2>
+
+<div class="step">1. วางกรวย Slump Cone บนแผ่นเหล็ก</div>
+
+<div class="step">2. เติมคอนกรีต 3 ชั้น</div>
+
+<div class="step">3. กระทุ้งแต่ละชั้น 25 ครั้ง</div>
+
+<div class="step">4. ปาดผิวหน้าให้เรียบ</div>
+
+<div class="step">5. ยกกรวยขึ้นในแนวดิ่ง</div>
+
+<div class="step">6. วัดค่าการยุบตัว (Slump)</div>
+
+</div>
+
+<div class="card">
+
+<h2>บันทึกผลการทดลอง</h2>
+
+<label>อัตราส่วนเถ้าลอย (%)</label>
+<input id="ratio">
+
+<label>ค่าการยุบตัว (mm)</label>
+<input id="slump">
+
+<button onclick="saveData()">เพิ่มข้อมูล</button>
+
+</div>
+
+<div class="card">
+
+<h2>ผลการทดลอง</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ครั้งที่</th>
+
+<th>เถ้าลอย (%)</th>
+
+<th>Slump (mm)</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tbody">
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="card">
+
+<h2>กราฟเปรียบเทียบ</h2>
+
+<canvas id="graph"></canvas>
+
+</div>
+
+</div>
+
+<footer>
+
+จัดทำเพื่อการวิจัยคอนกรีตผสมเถ้าลอยจากโรงไฟฟ้า
+
+</footer>
+
+<script>
+
+let ratio=[];
+
+let slump=[];
+
+let chart=new Chart(document.getElementById('graph'),{
+
+type:'bar',
+
+data:{
+
+labels:ratio,
+
+datasets:[{
+
+label:'Slump (mm)',
+
+data:slump,
+
+backgroundColor:[
+'#4CAF50',
+'#2196F3',
+'#FFC107',
+'#F44336'
+]
+
+}]
+
+}
+
+});
+
+function saveData(){
+
+let r=document.getElementById("ratio").value;
+
+let s=document.getElementById("slump").value;
+
+if(r=="" || s==""){
+
+alert("กรุณากรอกข้อมูล");
+
+return;
+
+}
+
+ratio.push(r+"%");
+
+slump.push(s);
+
+let table=document.getElementById("tbody");
+
+table.innerHTML+="<tr><td>"+ratio.length+"</td><td>"+r+"%</td><td>"+s+"</td></tr>";
+
+chart.update();
+
+document.getElementById("ratio").value="";
+
+document.getElementById("slump").value="";
+
+}
+
+</script>
+
+</body>
+</html>
